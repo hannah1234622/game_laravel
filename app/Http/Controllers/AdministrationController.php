@@ -15,12 +15,13 @@ class AdministrationController extends Controller
             $date = $mode['date'];
             $record = \App\Model\Record::where('CreateTime', 'LIKE', '%'.$date." ".$time.'%')->get();
             return view('administration', compact('record', 'time', 'date'));            
-        }elseif (empty($mode)) {
+        }elseif (isset($mode['_token'])) {
             $game_data = new \App\Games\GameInfo();
             $game_data->getMode($mode);
             return view('administration');
         }
-        echo "<script>alert('請重新選擇查詢注單');</script>";        
+        echo "<script>alert('請重新選擇查詢注單');</script>"; 
         return view('administration');
+
     }
 }

@@ -84,10 +84,10 @@ class GameInfo{
     public function getMode($mode)
     {
         foreach ($mode as $key => $value) {
-            $a = (int) $value;
+            $mode_value = (int) $value;
             $update_rows = DB::table('game_table')
                 -> where('name', '=', $key)
-                -> update(['mode' => $a]);
+                -> update(['mode' => $mode_value]);
         }
     }
 
