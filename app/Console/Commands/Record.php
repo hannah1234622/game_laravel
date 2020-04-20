@@ -19,7 +19,7 @@ class Record extends Command
      *
      * @var string
      */
-    protected $description = '更新注單資料';
+    protected $description = '新增/更新注單資料';
 
     /**
      * Create a new command instance.

@@ -45,13 +45,14 @@ class GameInfo{
         $curl -> setHeader('contentType','application/json');
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/login', $api_params);
         if ($curl -> error) {
-            echo $curl -> error_code;
-        } else {
-            $response = $curl -> response;
-            $token = json_decode($response, true);
-            return $token['token'];
+            $err = $curl -> error_code;
+            $curl -> close();
+            throw new \App\Exceptions\GameException($err);
         }
+        $response = $curl -> response;
+        $token = json_decode($response, true);
         $curl -> close();
+        return $token['token'];
     }
 
     //curl出進入遊戲的api資料
@@ -62,13 +63,14 @@ class GameInfo{
         $curl -> etHeader('token',$token_data);
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/member/login', $login_params);
         if ($curl -> error) {
-            echo $curl -> error_code;
-        } else {
-            $response = $curl -> response;
-            $url = json_decode($response, true);
-            return $url['url'];
+            $err = $curl -> error_code;
+            $curl -> close();
+            throw new \App\Exceptions\GameException($err);
         }
+        $response = $curl -> response;
+        $url = json_decode($response, true);
         $curl -> close();
+        return $url['url'];
     }
 
     //重導向
@@ -97,13 +99,14 @@ class GameInfo{
         $curl -> setHeader('token',$token_data);
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/record/betrecord/bytime',$record_params);
         if ($curl -> error) {
-            echo $curl -> error_code;
-        } else {
-            $response = $curl -> response;
-            $data = json_decode($response, true);
-            return $data['Data'];
+            $err = $curl -> error_code;
+            $curl -> close();
+            throw new \App\Exceptions\GameException($err);
         }
+        $response = $curl -> response;
+        $data = json_decode($response, true);
         $curl -> close();
+        return $data['Data'];
     }
 
     //修改下注資料型態
