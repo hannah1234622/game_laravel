@@ -9,7 +9,7 @@ class ManageController extends Controller
     public function manage()
     {
         //更改遊戲前台畫面
-        $rows = \App\Game::all();
+        $rows = \App\Model\Game::all();
         return view('manage', compact('rows'));
     }
 }

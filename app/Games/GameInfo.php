@@ -11,7 +11,7 @@ class GameInfo{
     //取得遊戲id
     public function getGid($id)
     {
-        $rows = \App\Game::where('id', 'LIKE', $id)
+        $rows = \App\Model\Game::where('id', 'LIKE', $id)
                     ->get();
         foreach ($rows as $row) {
             $g_id = $row->g_id;
@@ -22,7 +22,7 @@ class GameInfo{
     //產生物件變數
     public function setData($sign)
     {
-        $this->platform_secret = $sign;
+        $this -> platform_secret = $sign;
     }
 
     //產生驗證api
@@ -42,13 +42,13 @@ class GameInfo{
     public function param($api_params)
     {
         $curl = new \Curl \Curl();
-        $curl->setHeader('contentType','application/json');
-        $curl->post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/login',$api_params);
-        if ($curl->error) {
-            echo $curl->error_code;
+        $curl -> setHeader('contentType','application/json');
+        $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/login', $api_params);
+        if ($curl -> error) {
+            echo $curl -> error_code;
         } else {
-            $response = $curl->response;
-            $token = json_decode($response,true);
+            $response = $curl -> response;
+            $token = json_decode($response, true);
             return $token['token'];
         }
         $curl -> close();
@@ -58,14 +58,14 @@ class GameInfo{
     public function memberLogin($token_data,$login_params)
     {
         $curl = new \Curl \Curl();
-        $curl->setHeader('contentType','application/json');
-        $curl->setHeader('token',$token_data);
-        $curl->post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/member/login',$login_params);
-        if ($curl->error) {
-            echo $curl->error_code;
+        $curl -> setHeader('contentType','application/json');
+        $curl -> etHeader('token',$token_data);
+        $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/member/login', $login_params);
+        if ($curl -> error) {
+            echo $curl -> error_code;
         } else {
-            $response = $curl->response;
-            $url = json_decode($response,true);
+            $response = $curl -> response;
+            $url = json_decode($response, true);
             return $url['url'];
         }
         $curl -> close();
@@ -84,8 +84,8 @@ class GameInfo{
         foreach ($mode as $key => $value) {
             $a = (int) $value;
             $update_rows = DB::table('game_table')
-                ->where('name', '=', $key)
-                ->update(['mode'=> $a]);
+                -> where('name', '=', $key)
+                -> update(['mode' => $a]);
         }
     }
 
@@ -93,17 +93,29 @@ class GameInfo{
     public function betRecord($token_data,$record_params)
     {
         $curl = new \Curl \Curl();
-        $curl->setHeader('contentType','application/json');
-        $curl->setHeader('token',$token_data);
-        $curl->post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/record/betrecord/bytime',$record_params);
-        if ($curl->error) {
-            echo $curl->error_code;
+        $curl -> setHeader('contentType','application/json');
+        $curl -> setHeader('token',$token_data);
+        $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/record/betrecord/bytime',$record_params);
+        if ($curl -> error) {
+            echo $curl -> error_code;
         } else {
-            $response = $curl->response;
-            $data = json_decode($response,true);
+            $response = $curl -> response;
+            $data = json_decode($response, true);
             return $data['Data'];
         }
         $curl -> close();
+    }
+
+    //修改下注資料型態
+    public function datetime($insert_data)
+    {
+        for ($i=0; $i < count($insert_data)-1; $i++) { 
+            $date_change = strtotime($insert_data[$i]['CreateTime']);
+            $datetime = (date('Y-m-d H', $date_change)); 
+            unset($insert_data[$i]['CreateTime']);
+            $insert_data[$i]['CreateTime'] = $datetime;
+        }
+        return $insert_data;
     }
 
 
@@ -111,9 +123,9 @@ class GameInfo{
     public function getbetRecord($insert_data)
     {
         for ($i=0; $i < count($insert_data)-1; $i++) {
-            $exist = DB::table('record')->where('RecordSn', $insert_data[$i]['RecordSn'])->exists();
+            $exist = DB::table('record')->where('RecordSn', $insert_data[$i]['RecordSn']) -> exists();
             if ($exist) {
-                $update_rows = DB::table('record')->where('RecordSn', $insert_data[$i]['RecordSn'])->
+                $update_rows = DB::table('record') -> where('RecordSn', $insert_data[$i]['RecordSn']) ->
                 update(array(
                     'RecordSn' => $insert_data[$i]['RecordSn'],
                     'LoginName' => $insert_data[$i]['LoginName'],

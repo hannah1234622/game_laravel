@@ -34,7 +34,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-4" style="position: relative;top: 20px;">
-                        <input type="submit" value="送出" style="padding:5px 20px;background-color: rgb(210, 230, 237);border: none;border-radius: 3px;">
+                        <input type="submit" value="送出" style="padding:5px 20px;background-color: rgb(210, 230, 237);border: none;border-radius: 3px;margin-left: 50px;">
                     </div>
                 </div>             
             </div>

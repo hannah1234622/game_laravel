@@ -10,10 +10,10 @@ class RecreationController extends Controller
     {
         //進入遊戲畫面
         //string參數轉換為int
-        $a = (int) $id;
+        $id = (int) $id;
         //取得遊戲id
         $game_data = new \App\Games\GameInfo();
-        $g_id = $game_data->getGid($a);
+        $g_id = $game_data->getGid($id);
         //登入
         $game_data->setData("397ottvBmTnKzSzt1gz7yTrSqAjC3wRsmvaOuwVQ2vaMySRImCvzsTj9qsq$");
         $params = ["app_id"=>"nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$"];

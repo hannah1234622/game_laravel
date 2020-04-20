@@ -10,14 +10,116 @@
     <script src = "{{URL::asset('//code.jquery.com/jquery-3.4.1.slim.min.js')}}" integrity = "sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin = "anonymous"></script>
     <script src = "{{URL::asset('//cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js')}}" integrity = "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src = "{{URL::asset('//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')}}" integrity = "sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <div class="jumbotron">
+    <div style="min-width:2250px" class="jumbotron">
         <h1 class="display-4">管理平台</h1>
         <hr class="my-4">
-        <p>可更改平台遊戲 , 更新注單</p>
+        <p>可更改平台遊戲 , 顯示注單</p>
     </div>
-    <div class="container-fluid">
-        <a class="btn btn-primary btn-lg btn-block" href="manage" role="button">更改平台遊戲</a>
-        <a class="btn btn-secondary btn-lg btn-block" href="betrecord" role="button">更新注單號碼</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <a class="btn btn-info" style="margin-top: 15px;" href="manage">更改顯示平台遊戲</a>
+            </div>
+            <div class="col-10">
+                <form action="administration" style="margin-top: 15px;">
+                    <div class="form-row">
+                        <label style="margin: 5px 0px 0px 60px;" for="validationCustom01">查詢注單</label>
+                        <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">日期</label>
+                        <input type="date" name="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">時間</label>
+                        <select name="time">
+                            <option value="00">請選擇</option>
+                            <option value="01">1</option>
+                            <option value="02">2</option>
+                            <option value="03">3</option>
+                            <option value="04">4</option>
+                            <option value="05">5</option>
+                            <option value="06">6</option>
+                            <option value="07">7</option>
+                            <option value="08">8</option>
+                            <option value="09">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                        </select>
+                        <input class="btn btn-dark" style="margin: 0px 15px 0px 15px;" type="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+    @if (isset($time) && isset($date))
+        @if (count($record) != 0)
+        <div class="container-fluid">
+            <table class="table" style="margin: 30px 0px;">
+                <thead>
+                    <tr>
+                        <th>RecordSn</th>
+                        <th>LoginName</th>
+                        <th>AccountType</th>
+                        <th>GameSerialID</th>
+                        <th>CreateTime</th>
+                        <th>ValueType</th>
+                        <th>Reason</th>
+                        <th>WinAmount</th>
+                        <th>GameID</th>
+                        <th>BetAmount</th>
+                        <th>Commissionable</th>
+                        <th>GameClientIP</th>
+                        <th>DeviceInfo</th>
+                        <th>GrandJPContribution</th>
+                        <th>MajorJPContribution</th>
+                        <th>MinorJPContribution</th>
+                        <th>MiniJPContribution</th>
+                        <th>JPBet</th>
+                    </tr>
+                </thead>
+                @foreach ($record as $region)
+                <tbody>
+                    <tr>
+                        <td>{{ $region->RecordSn }}</td>
+                        <td>{{ $region->LoginName }}</td>
+                        <td>{{ $region->AccountType }}</td>
+                        <td>{{ $region->GameSerialID }}</td>
+                        <td>{{ $region->CreateTime }}</td>
+                        <td>{{ $region->ValueType }}</td>
+                        <td>{{ $region->Reason }}</td>
+                        <td>{{ $region->WinAmount }}</td>
+                        <td>{{ $region->GameID }}</td>
+                        <td>{{ $region->BetAmount }}</td>
+                        <td>{{ $region->Commissionable }}</td>
+                        <td>{{ $region->GameClientIP }}</td>
+                        <td>{{ $region->DeviceInfo }}</td>
+                        <td>{{ $region->GrandJPContribution }}</td>
+                        <td>{{ $region->MajorJPContribution }}</td>
+                        <td>{{ $region->MinorJPContribution }}</td>
+                        <td>{{ $region->MiniJPContribution }}</td>
+                        <td>{{ $region->JPBet }}</td>
+                    </tr>
+                </tbody>
+                @endforeach
+            </table>
+        </div>
+        @else
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-4" style="margin-top: 30px;">
+                    <h3>查無資料</h3>
+                </div>                
+            </div>                
+        </div>
+        @endif
+    @endif   
 </body>
 </html>

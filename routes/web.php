@@ -23,6 +23,6 @@ Route::get('recreation/{id?}', 'RecreationController@webData'); //進入遊戲�
 
 Route::get('manage', 'ManageController@manage'); //更改遊戲前台畫面
 
-Route::match(['get','post'],'administration', 'AdministrationController@administration'); //管理平台畫面
+Route::match(['get','post'],'administration/{date_init?}/{date_end?}', 'AdministrationController@administration'); //管理平台畫面
 
 Route::get('betrecord', 'BetRecordController@betrecord'); //更新下注記錄功能
