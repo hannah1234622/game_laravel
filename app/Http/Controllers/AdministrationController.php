@@ -10,7 +10,7 @@ class AdministrationController extends Controller
     {
         //管理平台畫面
         $mode = $request->all();
-        if ($mode['date'] !== null && $mode['time'] !== "00") {
+        if (isset($mode['date']) && $mode['time']!=="0") {
             $time = $mode['time'];
             $date = $mode['date'];
             $record = \App\Model\Record::where('CreateTime', 'LIKE', '%'.$date." ".$time.'%')->get();

@@ -25,33 +25,134 @@
                     <div class="form-row">
                         <label style="margin: 5px 0px 0px 60px;" for="validationCustom01">查詢注單</label>
                         <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">日期</label>
-                        <input type="date" name="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <input type="date" name="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);"
+                        @if (isset($date))
+                            value="<?php echo $date?>"
+                        @endif
+                        >
                         <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">時間</label>
                         <select name="time">
-                            <option value="00">請選擇</option>
-                            <option value="01">1</option>
-                            <option value="02">2</option>
-                            <option value="03">3</option>
-                            <option value="04">4</option>
-                            <option value="05">5</option>
-                            <option value="06">6</option>
-                            <option value="07">7</option>
-                            <option value="08">8</option>
-                            <option value="09">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
+                            <option value="0">請選擇</option>
+                            <option value="00"
+                            @if (isset($time) && $time == "00")
+                                selected
+                            @endif                            
+                            >0</option>
+                            <option value="01"
+                            @if (isset($time) && $time == "01")
+                                selected
+                            @endif                            
+                            >1</option>
+                            <option value="02"
+                            @if (isset($time) && $time == "02")
+                                selected
+                            @endif
+                            >2</option>
+                            <option value="03"
+                            @if (isset($time) && $time == "03")
+                                selected
+                            @endif
+                            >3</option>
+                            <option value="04"
+                            @if (isset($time) && $time == "04")
+                                selected
+                            @endif
+                            >4</option>
+                            <option value="05"
+                            @if (isset($time) && $time == "05")
+                                selected
+                            @endif
+                            >5</option>
+                            <option value="06"
+                            @if (isset($time) && $time == "06")
+                                selected
+                            @endif
+                            >6</option>
+                            <option value="07"
+                            @if (isset($time) && $time == "07")
+                                selected
+                            @endif
+                            >7</option>
+                            <option value="08"
+                            @if (isset($time) && $time == "08")
+                                selected
+                            @endif
+                            >8</option>
+                            <option value="09"
+                            @if (isset($time) && $time == "09")
+                                selected
+                            @endif
+                            >9</option>
+                            <option value="10"
+                            @if (isset($time) && $time == "10")
+                                selected
+                            @endif
+                            >10</option>
+                            <option value="11"
+                            @if (isset($time) && $time == "11")
+                                selected
+                            @endif
+                            >11</option>
+                            <option value="12"
+                            @if (isset($time) && $time == "12")
+                                selected
+                            @endif
+                            >12</option>
+                            <option value="13"
+                            @if (isset($time) && $time == "13")
+                                selected
+                            @endif
+                            >13</option>
+                            <option value="14"
+                            @if (isset($time) && $time == "14")
+                                selected
+                            @endif
+                            >14</option>
+                            <option value="15"
+                            @if (isset($time) && $time == "15")
+                                selected
+                            @endif
+                            >15</option>
+                            <option value="16"
+                            @if (isset($time) && $time == "16")
+                                selected
+                            @endif
+                            >16</option>
+                            <option value="17"
+                            @if (isset($time) && $time == "17")
+                                selected
+                            @endif
+                            >17</option>
+                            <option value="18"
+                            @if (isset($time) && $time == "18")
+                                selected
+                            @endif
+                            >18</option>
+                            <option value="19"
+                            @if (isset($time) && $time == "19")
+                                selected
+                            @endif
+                            >19</option>
+                            <option value="20"
+                            @if (isset($time) && $time == "20")
+                                selected
+                            @endif
+                            >20</option>
+                            <option value="21"
+                            @if (isset($time) && $time == "21")
+                                selected
+                            @endif
+                            >21</option>
+                            <option value="22"
+                            @if (isset($time) && $time == "22")
+                                selected
+                            @endif
+                            >22</option>
+                            <option value="23"
+                            @if (isset($time) && $time == "23")
+                                selected
+                            @endif
+                            >23</option>
                         </select>
                         <input class="btn btn-dark" style="margin: 0px 15px 0px 15px;" type="submit">
                     </div>
