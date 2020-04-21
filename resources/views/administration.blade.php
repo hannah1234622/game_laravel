@@ -23,14 +23,14 @@
             <div class="col-10">
                 <form action="administration" style="margin-top: 15px;">
                     <div class="form-row">
-                        <label style="margin: 5px 0px 0px 60px;" for="validationCustom01">查詢注單</label>
-                        <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">日期</label>
+                        <label style="margin: 5px 0px 0px 60px;">查詢注單</label>
+                        <label style="margin: 5px 15px 0px 15px;">日期</label>
                         <input type="date" name="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);"
                         @if (isset($date))
                             value="<?php echo $date?>"
                         @endif
                         >
-                        <label style="margin: 5px 15px 0px 15px;" for="validationCustom01">時間</label>
+                        <label style="margin: 5px 15px 0px 15px;">時間</label>
                         <select name="time">
                             <option value="0">請選擇</option>
                             <option value="00"
@@ -154,6 +154,7 @@
                             @endif
                             >23</option>
                         </select>
+                        <label style="margin: 5px 15px 0px 5px;">點</label>
                         <input class="btn btn-dark" style="margin: 0px 15px 0px 15px;" type="submit">
                     </div>
                 </form>

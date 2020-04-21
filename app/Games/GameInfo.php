@@ -3,6 +3,7 @@ namespace App\Games;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class GameInfo{
 
@@ -60,7 +61,7 @@ class GameInfo{
     {
         $curl = new \Curl \Curl();
         $curl -> setHeader('contentType','application/json');
-        $curl -> etHeader('token',$token_data);
+        $curl -> setHeader('token',$token_data);
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/member/login', $login_params);
         if ($curl -> error) {
             $err = $curl -> error_code;
@@ -112,15 +113,13 @@ class GameInfo{
     //修改下注資料型態
     public function datetime($insert_data)
     {
-        for ($i=0; $i < count($insert_data)-1; $i++) { 
-            $date_change = strtotime($insert_data[$i]['CreateTime']);
-            $datetime = (date('Y-m-d H', $date_change)); 
-            unset($insert_data[$i]['CreateTime']);
-            $insert_data[$i]['CreateTime'] = $datetime;
+        for ($i=0; $i < count($insert_data)-1; $i++) {
+            $datetime = new DateTime($insert_data[$i]['CreateTime']);
+            $datetime -> modify( '+12 hours' );
+            $insert_data[$i]['CreateTime'] = $datetime->format('Y-m-d H');
         }
         return $insert_data;
     }
-
 
     //資料新增
     public function getbetRecord($insert_data)
