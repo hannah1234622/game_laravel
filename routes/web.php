@@ -26,3 +26,15 @@ Route::get('manage', 'ManageController@manage'); //更改遊戲前台畫面
 Route::match(['get','post'],'administration/{date_init?}/{date_end?}', 'AdministrationController@administration'); //管理平台畫面
 
 Route::get('betrecord', 'BetRecordController@betrecord'); //更新下注記錄功能
+
+Route::get('test', function () {
+    $nums = [2, 7, 11, 15];
+    $target = 9;
+    $a = array();
+    foreach ($nums as $key => $value) {
+        if (isset($a[$target - $value]) && $a[$target - $value]!=$key) {
+            return [$a[$target - $value],$key];
+        }
+        $a[$value] = $key;
+    }
+});
