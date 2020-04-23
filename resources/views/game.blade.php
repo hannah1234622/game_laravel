@@ -23,14 +23,14 @@
                 小遊戲
             </div>
             <div class="row" style="position: relative; padding: 20px 20px 30px 30px;">
-                @foreach ($rows as $row)
+                @foreach ($games as $game)
                 <div class="col-3" style="padding-top: 20px;">
                     <div class="card" style="width: 18rem;border: solid 2px rgb(108, 159, 222)">
-                        <a href="recreation/{{$row->id}}">
-                        <img src="picture/{{$row->id}}.jpg" style="height:300px" class="card-img-top">
+                        <a href="recreation/{{$game->id}}">
+                        <img src="picture/{{$game->id}}.jpg" style="height:300px" class="card-img-top">
                         <div class="card-body">
-                            <span class="card-text" style="padding:0px 20px"><a href="recreation/{{$row->id}}">{{$row->id}}{{$row->name}}</span>
-                            <button type="button" class="btn btn-light"><a href="recreation/{{$row->id}}">開始玩</button>
+                            <span class="card-text" style="padding:0px 20px"><a href="recreation/{{$game->id}}">{{$game->id}}{{$game->name}}</span>
+                            <button type="button" class="btn btn-light"><a href="recreation/{{$game->id}}">開始玩</button>
                         </div>
                     </div>
                 </div>

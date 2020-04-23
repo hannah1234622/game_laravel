@@ -15,23 +15,41 @@
         <hr class="my-4">
         <p>可更改平台遊戲 , 顯示注單</p>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                <a class="btn btn-info" style="margin-top: 15px;" href="manage">更改顯示平台遊戲</a>
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-12" style="margin: 15px 50px;">
+                <a class="btn btn-info" href="manage">更改顯示平台遊戲</a>
             </div>
-            <div class="col-10">
-                <form action="administration" style="margin-top: 15px;">
+            <div class="col-12" style="margin: 15px 50px;">
+                <form action="betrecord" method="get" onsubmit="return date();">
+                    <div class="form-row">
+                        <label style="margin: 5px 5px 0px 10px;">取得下注記錄</label>
+                        <label style="margin: 5px 5px 0px 10px;">起始日期</label>
+                        <input type="date" name="starttime" id="starttime" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <label style="margin: 5px 5px 0px 10px;">結束日期</label>
+                        <input type="date" name="endtime" id="endtime" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <label style="margin: 5px 5px 0px 10px;">更新筆數</label>
+                        <select name="pagelimit" id="pagelimit">
+                            @for ($i = 10; $i <= 100; $i+=10)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+                        <input style="margin: 0px 5px 0px 30px;" class="btn btn-dark" type="submit" value="提交">
+                    </div>
+                </form>
+            </div>
+            <div class="col-12" style="margin: 30px 50px;">
+                <form action="administration" method="get">
                     <div class="form-row">
                         <label style="margin: 5px 0px 0px 60px;">查詢注單</label>
                         <label style="margin: 5px 15px 0px 15px;">日期</label>
-                        <input type="date" name="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);"
+                        <input type="date" name="date" id="date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);"
                         @if (isset($date))
                             value="<?php echo $date?>"
                         @endif
                         >
                         <label style="margin: 5px 15px 0px 15px;">時間</label>
-                        <select name="time">
+                        <select name="time" id="time">
                             <option value="0">請選擇</option>
                             <option value="00"
                             @if (isset($time) && $time == "00")
@@ -155,14 +173,14 @@
                             >23</option>
                         </select>
                         <label style="margin: 5px 15px 0px 5px;">點</label>
-                        <input class="btn btn-dark" style="margin: 0px 15px 0px 15px;" type="submit">
+                        <input class="btn btn-dark" style="margin: 0px 15px 0px 15px;" type="submit" onclick="send();">
                     </div>
                 </form>
             </div>
         </div>
     </div>
     @if (isset($time) && isset($date))
-        @if (count($record) != 0)
+        @if (count($records) != 0)
         <div class="container-fluid">
             <table class="table" style="margin: 30px 0px;">
                 <thead>
@@ -187,27 +205,27 @@
                         <th>JPBet</th>
                     </tr>
                 </thead>
-                @foreach ($record as $region)
+                @foreach ($records as $record)
                 <tbody>
                     <tr>
-                        <td>{{ $region->RecordSn }}</td>
-                        <td>{{ $region->LoginName }}</td>
-                        <td>{{ $region->AccountType }}</td>
-                        <td>{{ $region->GameSerialID }}</td>
-                        <td>{{ $region->CreateTime }}</td>
-                        <td>{{ $region->ValueType }}</td>
-                        <td>{{ $region->Reason }}</td>
-                        <td>{{ $region->WinAmount }}</td>
-                        <td>{{ $region->GameID }}</td>
-                        <td>{{ $region->BetAmount }}</td>
-                        <td>{{ $region->Commissionable }}</td>
-                        <td>{{ $region->GameClientIP }}</td>
-                        <td>{{ $region->DeviceInfo }}</td>
-                        <td>{{ $region->GrandJPContribution }}</td>
-                        <td>{{ $region->MajorJPContribution }}</td>
-                        <td>{{ $region->MinorJPContribution }}</td>
-                        <td>{{ $region->MiniJPContribution }}</td>
-                        <td>{{ $region->JPBet }}</td>
+                        <td>{{ $record->RecordSn }}</td>
+                        <td>{{ $record->LoginName }}</td>
+                        <td>{{ $record->AccountType }}</td>
+                        <td>{{ $record->GameSerialID }}</td>
+                        <td>{{ $record->CreateTime }}</td>
+                        <td>{{ $record->ValueType }}</td>
+                        <td>{{ $record->Reason }}</td>
+                        <td>{{ $record->WinAmount }}</td>
+                        <td>{{ $record->GameID }}</td>
+                        <td>{{ $record->BetAmount }}</td>
+                        <td>{{ $record->Commissionable }}</td>
+                        <td>{{ $record->GameClientIP }}</td>
+                        <td>{{ $record->DeviceInfo }}</td>
+                        <td>{{ $record->GrandJPContribution }}</td>
+                        <td>{{ $record->MajorJPContribution }}</td>
+                        <td>{{ $record->MinorJPContribution }}</td>
+                        <td>{{ $record->MiniJPContribution }}</td>
+                        <td>{{ $record->JPBet }}</td>
                     </tr>
                 </tbody>
                 @endforeach
@@ -222,6 +240,23 @@
             </div>                
         </div>
         @endif
-    @endif   
+    @endif
+    <script>
+    function send() {
+        var date = document.getElementById("date").value;
+        var time = document.getElementById("time").value;
+        if (!date || time=="0") {
+            alert('請重新選擇查詢注單');
+        }
+    }
+    function date() {
+        var starttime = document.getElementById("starttime").value;
+        var endtime = document.getElementById("endtime").value;
+        if ((starttime > endtime) || (!starttime || !endtime)) {
+            alert('日期輸入錯誤');
+            return false;
+        }
+    }
+    </script>   
 </body>
 </html>

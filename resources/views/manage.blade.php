@@ -18,22 +18,23 @@
                     <div class="col-12">
                         <h3>修改顯示畫面</h3>
                     </div>
-                    @foreach ($rows as $row)
+                    @foreach ($games as $game)
                     <div class="col-5">
-                        {{$row->name}}
+                        {{$game->name}}
                     </div>
                     <div class="col-4">
-                        <input class="form-check-input" type="radio" name="{{$row->name}}" @if (($row->mode) == 1) checked @endif value="1">
+                        <input class="form-check-input" type="radio" name="{{$game->name}}" @if (($game->mode) == 1) checked @endif value="1">
                         <label class="form-check-label">顯示</label>
                     </div>
                     <div class="col-3">
-                        <input class="form-check-input" type="radio" name="{{$row->name}}" @if (($row->mode) == 0) checked @endif value="0">
+                        <input class="form-check-input" type="radio" name="{{$game->name}}" @if (($game->mode) == 0) checked @endif value="0">
                         <label class="form-check-label">不顯示</label>
                     </div>
                     @endforeach
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-4" style="position: relative;top: 20px;">
+                        <input type="hidden" name="_method" value="PUT">
                         <input type="submit" value="送出" style="padding:5px 20px;background-color: rgb(210, 230, 237);border: none;border-radius: 3px;margin-left: 50px;">
                     </div>
                 </div>             

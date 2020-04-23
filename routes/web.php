@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Middleware\auth;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,20 +24,13 @@ Route::get('game', 'GameController@front');//顯示前台畫面
 
 Route::get('recreation/{id?}', 'RecreationController@webData'); //進入遊戲畫面
 
+Route::match(['get','put'],'administration', 'AdministrationController@administration'); //管理平台畫面
+
 Route::get('manage', 'ManageController@manage'); //更改遊戲前台畫面
 
-Route::match(['get','post'],'administration/{date_init?}/{date_end?}', 'AdministrationController@administration'); //管理平台畫面
-
-Route::get('betrecord', 'BetRecordController@betrecord'); //更新下注記錄功能
-
-Route::get('test', function () {
-    $nums = [2, 7, 11, 15];
-    $target = 9;
-    $a = array();
-    foreach ($nums as $key => $value) {
-        if (isset($a[$target - $value]) && $a[$target - $value]!=$key) {
-            return [$a[$target - $value],$key];
-        }
-        $a[$value] = $key;
-    }
-});
+Route::get('betrecord', function () {
+    Artisan::call('record');
+    $url = "administration";
+    header("Location:$url");
+    exit(); 
+}); //更新下注記錄功能

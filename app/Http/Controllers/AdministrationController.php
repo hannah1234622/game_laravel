@@ -9,17 +9,15 @@ class AdministrationController extends Controller
     public function administration(Request $request) 
     {
         //管理平台畫面
-        $mode = $request->all();
-        if (isset($mode['time']) && $mode['date']!=null && $mode['time']!=="0") {
-            $time = $mode['time'];
-            $date = $mode['date'];
-            $record = \App\Model\Record::where('CreateTime', 'LIKE', '%'.$date." ".$time.'%')->get();
-            return view('administration', compact('record', 'time', 'date'));                                 
-        }elseif (isset($mode['time'])) {
-            echo "<script>alert('請重新選擇查詢注單');</script>"; 
+        $manage = $request->all();
+        if (isset($manage['time']) && $manage['date']!=null && $manage['time']!=="0") {
+            $date = $manage['date'];
+            $time = $manage['time'];
+            $records = \App\Model\Record::whereDate('CreateTime', $date)->whereTime('CreateTime', '>=', $time .':00:00')->whereTime('CreateTime', '<=', $time .':59:59')->get();
+            return view('administration', compact('records', 'time', 'date'));                               
         }
         $game_data = new \App\Games\GameInfo();
-        $game_data->getMode($mode);
+        $game_data->updateMode($manage);
         return view('administration');
     }
 }
