@@ -15,7 +15,7 @@ class GameInfo {
     public function getGid($id)
     {
         $games = \App\Model\Game::where('id', $id) -> first();
-        $g_id = $games->g_id;
+        $g_id = $games -> g_id;
         return $g_id;
     }
 
@@ -41,7 +41,7 @@ class GameInfo {
     public function login($api_params)
     {
         $curl = new \Curl \Curl();
-        $curl -> setHeader('contentType','application/json');
+        $curl -> setHeader('contentType', 'application/json');
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/login', $api_params);
         if ($curl -> error) {
             $err = $curl -> error_code;
@@ -58,8 +58,8 @@ class GameInfo {
     public function memberLogin($token_data,$game_params)
     {
         $curl = new \Curl \Curl();
-        $curl -> setHeader('contentType','application/json');
-        $curl -> setHeader('token',$token_data);
+        $curl -> setHeader('contentType', 'application/json');
+        $curl -> setHeader('token', $token_data);
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/member/login', $game_params);
         if ($curl -> error) {
             $err = $curl -> error_code;
@@ -85,8 +85,8 @@ class GameInfo {
     public function betRecord($token_data, $record_params)
     {
         $curl = new \Curl \Curl();
-        $curl -> setHeader('contentType','application/json');
-        $curl -> setHeader('token',$token_data);
+        $curl -> setHeader('contentType', 'application/json');
+        $curl -> setHeader('token', $token_data);
         $curl -> post('https://api-stag.acewin-demo.com/i17gameaceapicenter/nh38whbUvxzCqSVx0xvO4Df8nBv90dzi4DjFja$$/record/betrecord/bytime', $record_params);
         if ($curl -> error) {
             $err = $curl -> error_code;
@@ -96,17 +96,20 @@ class GameInfo {
         $response = $curl -> response;
         $data = json_decode($response, true);
         $curl -> close();
+        if (!isset($data['Data'])) {
+            throw new \App\Exceptions\GameException($data['msg']);
+        }
         return $data['Data'];
     }
 
     //修改下注資料型態
     public function datetime($insert_data)
     {
-        for ($i=0; $i < count($insert_data)-1; $i++) {
+        for ($i=0; $i < count($insert_data); $i++) {
             $datetime = new DateTime($insert_data[$i]['CreateTime']);
-            $date = $datetime->format('Y-m-d H:i:s');
-            $datetime = new DateTime($date, new DateTimeZone('America/New_York'));
-            $datetime->setTimezone(new DateTimeZone('Asia/Taipei'));
+            $date = $datetime -> format('Y-m-d H:i:s');
+            $datetime = new DateTime($date, new DateTimeZone('Etc/GMT+4'));
+            $datetime -> setTimezone(new DateTimeZone('Asia/Taipei'));
             $insert_data[$i]['CreateTime'] = $datetime -> format('Y-m-d H:i:s');
         }
         return $insert_data;
@@ -115,28 +118,27 @@ class GameInfo {
     //資料新增
     public function getbetRecord($insert_data)
     {
-        for ($i=0; $i < count($insert_data)-1; $i++) {
-            $add_rows = \App\Model\Record::firstOrNew([
-                'RecordSn' => $insert_data[$i]['RecordSn'],
-                'LoginName' => $insert_data[$i]['LoginName'],
-                'AccountType' => $insert_data[$i]['AccountType'],
-                'GameSerialID' => $insert_data[$i]['GameSerialID'],
-                'CreateTime' => $insert_data[$i]['CreateTime'],
-                'ValueType' => $insert_data[$i]['ValueType'],
-                'Reason' => $insert_data[$i]['Reason'],
-                'WinAmount' => $insert_data[$i]['WinAmount'],
-                'GameID' => $insert_data[$i]['GameID'],
-                'BetAmount' => $insert_data[$i]['BetAmount'],
-                'Commissionable' => $insert_data[$i]['Commissionable'],
-                'GameClientIP' => $insert_data[$i]['GameClientIP'],
-                'DeviceInfo' => $insert_data[$i]['DeviceInfo'],
-                'GrandJPContribution' => $insert_data[$i]['GrandJPContribution'],
-                'MajorJPContribution' => $insert_data[$i]['MajorJPContribution'],
-                'MinorJPContribution' => $insert_data[$i]['MinorJPContribution'],
-                'MiniJPContribution' => $insert_data[$i]['MiniJPContribution'],
-                'JPBet' => $insert_data[$i]['JPBet'],
-            ]);
-            $add_rows->save();          
+        foreach ($insert_data as $data) {
+            $add_rows = \App\Model\Record::updateOrCreate(
+                ['RecordSn' => $data['RecordSn'],
+                'LoginName' => $data['LoginName'],
+                'AccountType' => $data['AccountType'],
+                'GameSerialID' => $data['GameSerialID'],
+                'CreateTime' => $data['CreateTime'],
+                'ValueType' => $data['ValueType'],
+                'Reason' => $data['Reason'],
+                'WinAmount' => $data['WinAmount'],
+                'GameID' => $data['GameID'],
+                'BetAmount' => $data['BetAmount'],
+                'Commissionable' => $data['Commissionable'],
+                'GameClientIP' => $data['GameClientIP'],
+                'DeviceInfo' => $data['DeviceInfo'],
+                'GrandJPContribution' => $data['GrandJPContribution'],
+                'MajorJPContribution' => $data['MajorJPContribution'],
+                'MinorJPContribution' => $data['MinorJPContribution'],
+                'MiniJPContribution' => $data['MiniJPContribution'],
+                'JPBet' => $data['JPBet']]
+            );
         }
     }
 }

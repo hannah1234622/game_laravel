@@ -8,7 +8,8 @@ class Record extends Model
 {
     protected $connection = 'game';
     protected $table = 'record';
-    public $timestamps = false;
+    protected $primaryKey = 'RecordSn';
+    const CREATED_AT = 'insert_at';
     public $fillable = [
         'RecordSn', 'LoginName', 'AccountType', 'GameSerialID', 'CreateTime',
         'ValueType', 'Reason', 'WinAmount', 'GameID', 'BetAmount', 'Commissionable',

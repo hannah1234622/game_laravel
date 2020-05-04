@@ -17,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('manage', 'ManageController@manage'); //更改遊戲前台畫面
+
+Route::get('administration', 'AdministrationController@administration'); //管理平台畫面
+
+Route::put('administration', 'AdministrationController@administration'); //管理平台畫面
+
+Route::get('betrecord', function () {
+    Artisan::call('record');
+    $url = "administration";
+    header("Location:$url");
+    exit(); 
+}); //更新下注記錄功能

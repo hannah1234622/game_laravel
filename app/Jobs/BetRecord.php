@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Http\Request;
+use DateTime;
 
 class BetRecord implements ShouldQueue
 {
@@ -41,11 +42,15 @@ class BetRecord implements ShouldQueue
         $token_data = $game_data->login($api_params);
 
         //取得下注記錄
-        $betrecord_params = ["starttime" => "2020-04-9 00:00.00", "endtime" => "2020-05-15 00:00.00", "page" => 1, "pagelimit" => 100];
-        if (isset($manage['pagelimit']) && $manage['starttime']!=null && $manage['endtime']!=null) {
-            $betrecord_params = ["starttime" => $manage['starttime'] ." 00:00.00", "endtime" => $manage['endtime'] ." 00:00.00", "page" => 1, "pagelimit" => (int)$manage['pagelimit']];         
+        $this->betrecord_params = ["starttime" => "2020-04-9 00:00.00", "endtime" => "2020-05-15 00:00.00", "page" => 1, "pagelimit" => 100];
+        if (isset($manage['pagelimit']) && $manage['start_date']!=null && $manage['end_date']!=null) {
+            $start_date = new DateTime($manage['start_date'].' '.$manage['start_time'].":00");
+            $start_time = $start_date -> format('Y-m-d H:i.s');
+            $end_date = new DateTime($manage['end_date'].' '.$manage['end_time'].":00");
+            $end_time = $end_date -> format('Y-m-d H:i.s'); 
+            $betrecord_params = ["starttime" => $start_time, "endtime" => $end_time, "page" => 1, "pagelimit" => (int)$manage['pagelimit']];         
         }
-        $api_params = $game_data->getParam($betrecord_params);
+        $api_params = $game_data->getParam($this->betrecord_params);
         $insert_data = $game_data->betRecord($token_data, $api_params);
         $record_data = $game_data->datetime($insert_data);
         $game_data->getbetRecord($record_data);

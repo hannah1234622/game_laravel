@@ -25,9 +25,21 @@
                     <div class="form-row">
                         <label style="margin: 5px 5px 0px 10px;">取得下注記錄</label>
                         <label style="margin: 5px 5px 0px 10px;">起始日期</label>
-                        <input type="date" name="starttime" id="starttime" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <input type="date" name="start_date" id="start_date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <label style="margin: 5px 5px 0px 10px;">時間</label>
+                        <select name="start_time" id="start_time">
+                            @for ($i = 0; $i <= 24; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
                         <label style="margin: 5px 5px 0px 10px;">結束日期</label>
-                        <input type="date" name="endtime" id="endtime" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <input type="date" name="end_date" id="end_date" style="border-radius: 5px;border: darkgrey 1px solid;background-color: rgb(247, 247, 247);">
+                        <label style="margin: 5px 5px 0px 10px;">時間</label>
+                        <select name="end_time" id="end_time">
+                            @for ($i = 0; $i <= 24; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>                        
                         <label style="margin: 5px 5px 0px 10px;">更新筆數</label>
                         <select name="pagelimit" id="pagelimit">
                             @for ($i = 10; $i <= 100; $i+=10)
@@ -250,11 +262,16 @@
         }
     }
     function date() {
-        var starttime = document.getElementById("starttime").value;
-        var endtime = document.getElementById("endtime").value;
-        if ((starttime > endtime) || (!starttime || !endtime)) {
+        var start_date = document.getElementById("start_date").value;
+        var end_date = document.getElementById("end_date").value;
+        var start_time = document.getElementById("start_time").value;
+        var end_time = document.getElementById("end_time").value;
+        if ((start_date > end_date) || (!start_date || !end_date)) {
             alert('日期輸入錯誤');
             return false;
+        }else if ((Number(start_time) > Number(end_time)) && (start_date = end_date)) {
+            alert('時間輸入錯誤');
+            return false;             
         }
     }
     </script>   
